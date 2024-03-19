@@ -44,5 +44,6 @@ describe("Pruebas sobre Facade ", () => {
 
     console.log("keyboard center click");
     expect(true).to.equal(true);
+    
   });
 });
