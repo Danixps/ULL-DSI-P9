@@ -1,81 +1,95 @@
-// import {ProductLibrary} from "./product.js"
-// import { AdditionLibrary } from "./add.js";
-// import { Facade} from "./facade.js";
-
-import { Button } from "./button.js";
-import { ButtonObserver } from "./buttonObserver.js"
+import {createReadStream} from 'fs';
+import {ManejodeFicheros} from './lectura.js'
 
 
+/**
+* Description la clase Leerarchivos json hereda de manejo de ficheros
+*/
+export class LecturaArchivosjson extends  ManejodeFicheros {
+    protected procesar(): string[] {
 
-export type data = {
-  operacion:string;
+    const archivocsv = createReadStream('prueba.csv')
+      archivocsv.on('data', (piece) => {
+      process.stdout.write(piece);
+      return manejardatoscsv(piece.toString());
+    });
+    
+    archivocsv.on('error', (err) => {
+      process.stderr.write(err.message);
+    });    
+  const  datos: string[] = ['sdfg'];
+  return datos;
+  }
+
+
 }
 
 /**
- * Descripción: Evento representa un evento
- * @param observer
- * @returns id
- */
-export interface Event<T> {
-  id: string,
-  data: T
+* Description la clase Leer archivos cvs hereda de manejo de ficheros
+*/
+export class LecturaArchivoscvs extends  ManejodeFicheros {
+  protected procesar(): string[] {
+  const archivojson = createReadStream('prueba.json')
+  
+  archivojson.on('data', (piece) => {
+    process.stdout.write(piece);
+    manejardatosjson(piece.toString()); 
+  });
+  
+  archivojson.on('error', (err) => {
+    process.stderr.write(err.message);
+  });
+  const  datos: string[] = ['']
+  return datos;
+}
+
 }
 
 /**
- * Interface for observable classes
- */
-export interface Observable<T> {
-  subscribe(observer: Observer<T>, event: Event<T>): void;
-  unsubscribe(observer: Observer<T>, event: Event<T>): void;
-  notify(event: Event<T>): void;
+* Description la funcion manejar datos cvs recibe los datos de csv para ir clasificando los datos en un array
+* @param datos que serian los datos de un archivo cvs en un string
+*/
+function manejardatoscsv(datos: string) :string[] {
+  const arr_datos: string[] = datos.split(',');
+
+  
+  for (let index = 0; index < arr_datos.length; index++) {
+
+    if (index === 0){
+    const capacidad = arr_datos[index];
+    console.log(capacidad);
+    } 
+    if(index === 1){
+      const elementosmochila = arr_datos[index];
+      console.log(elementosmochila);
+
+    }  else{
+    const element = arr_datos[index];
+    console.log(element); 
+    }
+  }
+  return arr_datos;
+  
 }
 
 /**
- * Interface for observer classes
- */
-export interface Observer<T> {
-  update(observable: Observable<T>, event: Event<T>): string|undefined;
+* Description la funcion manejar datos cvs recibe los datos de json para ir clasificando los datos en un array
+* @param datos que serian los datos de un archivo json en un string
+*/
+function manejardatosjson(datos: string) :string[] {
+  const arr_datos: string[] = datos.split(',');
+
+  
+  for (let index = 0; index < arr_datos.length; index++) {
+    const element = arr_datos[index];
+    console.log(element);    
+  }
+  return arr_datos;
+  
 }
 
+const fichero1: ManejodeFicheros = new LecturaArchivoscvs();
+fichero1.ejecutar();
 
-
-// Client code
-const myButton = new Button(0, 'myButton');
-const firstButtonObserver = new ButtonObserver(0, 'firstButtonObserver');
-const secondButtonObserver = new ButtonObserver(1, 'secondButtonObserver');
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-const evento: Event<data> = {id:"raton", data:{operacion: "derecho"}}
-const evento2: Event<data> = {id:"teclado", data:{operacion: "centro"}}
-
-
-console.log('firstButtonObserver subscription');
-myButton.subscribe(firstButtonObserver);
-
-console.log('secondButtonObserver subscription');
-myButton.subscribe(secondButtonObserver);
-
-try {
-  myButton.subscribe(secondButtonObserver);
-} catch (error) {
-  console.log('secondButtonObserver was already subscribed');
-}
-
-console.log('myButton left click');
-myButton.notify(evento);
-
-console.log('keyboard center click');
-myButton.notify(evento2);
-
-
-
-console.log('firstButtonObserver unsubscription');
-myButton.unsubscribe(firstButtonObserver);
-
-console.log('myButton right click');
-myButton.notify(evento);
-
-console.log('keyboard center click');
-myButton.notify(evento2);
-
- 
+const fichero2: ManejodeFicheros = new LecturaArchivosjson();
+fichero2.ejecutar();
