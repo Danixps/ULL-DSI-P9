@@ -1,6 +1,6 @@
 import {createReadStream} from 'fs';
 import {ManejodeFicheros} from './lectura.js'
-
+import { readFileSync } from 'node:fs';
 
 /**
 * Description la clase Leerarchivos json hereda de manejo de ficheros
@@ -8,17 +8,12 @@ import {ManejodeFicheros} from './lectura.js'
 export class LecturaArchivosjson extends  ManejodeFicheros {
     protected procesar(): string[] {
 
-    const archivocsv = createReadStream('prueba.csv')
-      archivocsv.on('data', (piece) => {
-      process.stdout.write(piece);
-      return manejardatoscsv(piece.toString());
-    });
+
+    manejardatoscsv(readFileSync('prueba.csv').toString());
     
-    archivocsv.on('error', (err) => {
-      process.stderr.write(err.message);
-    });    
-  const  datos: string[] = ['sdfg'];
-  return datos;
+
+
+  return manejardatoscsv(readFileSync('prueba.csv').toString());
   }
 
 
