@@ -4,6 +4,9 @@
 
 import { Button } from "./button.js";
 import { ButtonObserver } from "./buttonObserver.js"
+
+
+
 export type data = {
   operacion:string;
 }
